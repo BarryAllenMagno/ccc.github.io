@@ -5,7 +5,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<div class="container">
-				<div class="jumbotron">
+				<div class="jumbotron" style="background-color:#cccccc">
 						<h2 class="display-5" style="text-align: center;">WELCOME!</h2>
 						<hr>
 						<div class="my-4">
@@ -34,6 +34,7 @@
                   </div>
 								</div>
 						</div>
+						<hr>
 				</div>
 		</div>
 <?php $this->load->view("templates/footer"); ?>

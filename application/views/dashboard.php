@@ -1,33 +1,20 @@
 <?php $this->load->view("templates/userHeader"); ?>
-<!-- <style>
-* {
-  box-sizing: border-box;
-}
 
-#myInput {
-
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
-
-</style> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <br>
     <div class="container">
         <h3>ADMIN DASHBOARD</h3>
         <hr>
 
-        <div class="col-md-12" style="text-align: center">
+      <div class="col-md-12" style="text-align: center">
           <?php  if (isset($_SESSION['message'])) { ?>
-        <div class="alert alert-success text-center" >
+          <div class="alert alert-success text-center" id="success-alert" >
           <?php echo $_SESSION['message']; ?>
-        </div>
+          </div>
           <?php
           }  ?>
-    </div>
+      </div>
+
         <?php $username = $this->session->userdata('username'); ?>
         <h5>Welcome <?php echo $username;?>!</h5>
         <br>
@@ -35,12 +22,10 @@
             $user_id = $this->session->userdata('user_id');
          ?>
          <?php if($user_id == '1'): ?>
-
-          <?php echo anchor("admin/addLeader", "ADD LEADER", ['class' => 'btn btn-primary']); ?>
-          <?php echo anchor("admin/addMember", "ADD MEMBER", ['class' => 'btn btn-primary']); ?>
-          <?php echo anchor("admin/addMinistry", "VIEW MINISTRY", ['class' => 'btn btn-primary']); ?>
-
-        <?php else: ?>
+          <a href="<?php echo site_url('admin/addLeader/') ?>" class="btn btn-success"><i class="fa fa-user-plus"></i> ADD LEADER</a>
+          <a href="<?php echo site_url('admin/addMember/') ?>" class="btn btn-success"><i class="fa fa-user-plus"></i> ADD MEMBER</a>
+          <a href="<?php echo site_url('admin/addMinistry/') ?>" class="btn btn-success"><i class="fa fa-eye"></i> VIEW MINISTRY</a>
+          <?php else: ?>
           <?php endif; ?>
 
       <hr download style="visibility: hidden">
@@ -73,9 +58,8 @@
                     <td><?php echo $leader->age; ?></td>
                     <td><?php echo $leader->address; ?></td>
                     <td><?php echo $leader->contact; ?></td>
-                    <td>
-                      <?php echo anchor("admin/viewMembers/{$leader->min_id}", "VIEW MEMBER", ['class' => 'btn btn-outline-success', 'style' =>  '']); ?>
-
+                    <td class="">
+                      <a href="<?php echo site_url('admin/viewMembers/'.$leader->min_id) ?>" class="btn btn-outline-info"><i class="fa fa-users"></i> VIEW MEMBER</a>
                     </td>
                 </tr>
                   <?php endforeach; ?>
@@ -90,7 +74,11 @@
 </div>
 <br>
 
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<?php $this->load->view("templates/footer"); ?>
+
+<script> //script for search filter
 function myFunction() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");
@@ -109,6 +97,12 @@ function myFunction() {
     }
   }
 }
-</script>
 
-<?php $this->load->view("templates/footer"); ?>
+$(document).ready(function() {
+  $("#success-alert").hide();
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      $("#success-alert").slideUp(500);
+    });
+  
+});
+</script>

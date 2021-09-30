@@ -64,7 +64,7 @@
           }
 
           public function getMembers($min_id){
-                $this->db->select(['tbl_ministry.min_id','tbl_ministry.ministry','tbl_members.name', 'tbl_members.member_id', 'tbl_members.gender','tbl_members.birthday', 'tbl_members.age', 'tbl_members.address', 'tbl_members.contact']);
+                $this->db->select(['tbl_ministry.min_id','tbl_ministry.ministry','tbl_members.name', 'tbl_members.member_id', 'tbl_members.gender','tbl_members.birthday', 'tbl_members.age', 'tbl_members.address', 'tbl_members.contact', 'tbl_members.image']);
                 $this->db->from('tbl_members');
                 $this->db->join('tbl_ministry', 'tbl_ministry.min_id = tbl_members.min_id');
                 $this->db->where(['tbl_members.min_id' => $min_id]);
@@ -73,7 +73,7 @@
           }
 
           public function getMemberRecord($member_id){
-                $this->db->select(['tbl_ministry.min_id', 'tbl_ministry.ministry', 'tbl_members.name', 'tbl_members.member_id', 'tbl_members.age', 'tbl_members.gender', 'tbl_members.address', 'tbl_members.contact', 'tbl_members.birthday']);
+                $this->db->select(['tbl_ministry.min_id', 'tbl_ministry.ministry', 'tbl_members.name', 'tbl_members.member_id', 'tbl_members.age', 'tbl_members.gender', 'tbl_members.address', 'tbl_members.contact', 'tbl_members.birthday', 'tbl_members.image']);
                 $this->db->from('tbl_members');
                 $this->db->join('tbl_ministry', 'tbl_ministry.min_id = tbl_members.min_id');
                 $this->db->where(['tbl_members.member_id' => $member_id]);
@@ -91,7 +91,10 @@
            public function removeMember($member_id){
                 return $this->db->delete('tbl_members', ['member_id' => $member_id]);
            }
-
+          
+           public function removeMinistry($min_id){
+             return $this->db->delete('tbl_ministry', ['min_id' => $min_id]);
+           }
 
 
 

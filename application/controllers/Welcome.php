@@ -62,31 +62,16 @@ class Welcome extends MY_Controller {
 					$this->load->model('queries');
 					$userExist = $this->queries->adminExist($username, $password);
 					if($userExist){
-						if($userExist->user_id == '1'){
+
 							$sessionData = [
-								'college_id'=> $userExist->college_id,
 									'user_id' => $userExist->user_id,
-									'username' => $userExist->username,
-									'email' => $userExist->email,
-									'role_id' => $userExist->role_id,
+									'username' => $userExist->username
 						 ];
 
 
 						 $this->session->set_userdata($sessionData);
 						 redirect('admin/dashboard');
-						 }
-						 else if($userExist->user_id  > '1'){
-							 $sessionData = [
-								 	 'college_id'=> $userExist->college_id,
-									 'user_id' => $userExist->user_id,
-									 'username' => $userExist->username,
-									 'email' => $userExist->email,
-									 'college_id' => $userExist->college_id,
-									 'role_id' => $userExist->role_id,
-							];
-							$this->session->set_userdata($sessionData);
- 						 redirect('admin/dashboard');
-						 }
+
 					}else{
 						 $this->session->set_flashdata('message', 'Incorrect Email or Password!');
 						 redirect('welcome/login');

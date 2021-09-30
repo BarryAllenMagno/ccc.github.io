@@ -98,15 +98,46 @@ class Admin extends MY_Controller {
 
       $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
-      if($this->form_validation->run()){
-         $data = $this->input->post();
-         $this->load->model('queries');
-         if($this->queries->insertMember($data)){
-            $this->session->set_flashdata('message', 'Member added successfully!');
-         }else{
-            $this->session->set_flashdata('message', 'Failed to add member!');
-         }
+      if($this->form_validation->run()) {
+         $ori_filename = $_FILES['profileimage']['name'];
+         $new_name = time()."".str_replace(' ','-',$ori_filename);
+         $config = [
+              'upload_path' => './assets/upload/profile/',
+              'allowed_types' => 'gif|jpg|png|jpeg',
+              'file_name' => $new_name,
+         ];
+
+         $this->load->library('upload', $config);
+         if ( ! $this->upload->do_upload('profileimage'))
+      {
+              $error = array('error' => $this->upload->display_errors());
+
+							die("Error");
+            
+      }else{
+          $prof_filename = $this->upload->data('file_name');
+
+          $data = [
+              'name' => $this->input->post('name'),
+              'min_id' => $this->input->post('min_id'),
+              'gender' => $this->input->post('gender'),
+              'birthday' => $this->input->post('birthday'),
+              'age' => $this->input->post('age'),
+              'address' => $this->input->post('address'),
+              'contact' => $this->input->post('contact'),
+              'image' => $prof_filename
+
+          ];
+
+            $this->load->model('queries');
+            if($this->queries->insertMember($data)){
+              $this->session->set_flashdata('message', 'Member added successfully!');
+            }
+
             return redirect('admin/addMember');
+
+             }
+
       }else{
         $this->addMember();
       }
@@ -140,20 +171,63 @@ class Admin extends MY_Controller {
            $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
            if($this->form_validation->run()){
-               $data = $this->input->post();
+
+             if($_FILES['profileimage']['name']){
+             $config = [
+                  'upload_path' => './assets/upload/profile/',
+                  'allowed_types' => 'gif|jpg|png|jpeg'
+
+             ];
+
+             $this->load->library('upload', $config);
+             if ( ! $this->upload->do_upload('profileimage'))
+          {
+                  $error = array('error' => $this->upload->display_errors());
+
+                 die("Error");
+
+          }else{
+              $profile_filename = $this->upload->data('file_name');
+
+              $data = [
+                  'name' => $this->input->post('name'),
+                  'min_id' => $this->input->post('min_id'),
+                  'gender' => $this->input->post('gender'),
+                  'birthday' => $this->input->post('birthday'),
+                  'age' => $this->input->post('age'),
+                  'address' => $this->input->post('address'),
+                  'contact' => $this->input->post('contact'),
+                  'image' => $profile_filename
+
+              ];
                $this->load->model('queries');
                if($this->queries->updateMember($data, $member_id)){
                   $this->session->set_flashdata('message', 'Member updated successfully!');
-
-                  redirect("admin/editMember/{$member_id}");
-               }else{
-                 $this->session->set_flashdata('message', 'Failed to update member! Try Again');
-                redirect("admin/editMember/{$member_id}");
-               }
-           }else{
-               $this->modifyMember($member_id);
+           }
+           redirect("admin/editMember/{$member_id}");
          }
+         }else{
+
+
+           $data = [
+               'name' => $this->input->post('name'),
+               'min_id' => $this->input->post('min_id'),
+               'gender' => $this->input->post('gender'),
+               'birthday' => $this->input->post('birthday'),
+               'age' => $this->input->post('age'),
+               'address' => $this->input->post('address'),
+               'contact' => $this->input->post('contact')
+
+           ];
+            $this->load->model('queries');
+            if($this->queries->updateMember($data, $member_id)){
+               $this->session->set_flashdata('message', 'Member updated successfully!');
+        }
+            redirect("admin/editMember/{$member_id}");
+          
        }
+     }
+   }
 
        public function deleteMember($member_id){
             $this->load->model('queries');
@@ -164,12 +238,28 @@ class Admin extends MY_Controller {
 
        }
 
-       public function deleteCoadmin($user_id){
+      //  public function deleteCoadmin($user_id){
+      //    $this->load->model('queries');
+      //    if ($this->queries->removeCoadmin($user_id)){
+      //      $this->session->set_flashdata('message', 'Co-admin deleted successfully!');
+      //        return redirect("admin/dashboard");
+      //    }
+      //  }
+
+       public function viewProfile($member_id){
          $this->load->model('queries');
-         if ($this->queries->removeCoadmin($user_id)){
-           $this->session->set_flashdata('message', 'Co-admin deleted successfully!');
-             return redirect("admin/dashboard");
-         }
+         $ministries = $this->queries->getMinistry();
+         $memberData = $this->queries->getMemberRecord($member_id);
+         $this->load->view('viewProfile', ['ministries' => $ministries, 'memberData' => $memberData]);
+       }
+
+       public function deleteMinistry($min_id){
+          $this->load->model('queries');
+            if ($this->queries->removeMinistry($min_id)){
+              $this->session->set_flashdata('message', 'Ministry deleted successfully!');
+                return redirect("admin/addMinistry");
+            }
+
        }
 
 }

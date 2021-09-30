@@ -7,9 +7,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+    
 
-
-  <body>
     <?php echo form_open("welcome/signin", ['class' => 'form-horizontal']); ?>
     <div class="container">
       <!-- <h2 class="text-center fw-regular fs-10">ADMIN LOGIN</h2> -->
@@ -39,13 +38,7 @@
                 <?php echo form_error('password','<div class="text-danger">','</div>'); ?>
                 <label for="floatingPassword">Password</label>
               </div>
-
-              <!-- <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                <label class="form-check-label" for="rememberPasswordCheck">
-                  Remember password
-                </label>
-              </div> -->
+              
               <div class="d-grid">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
                   in</button>

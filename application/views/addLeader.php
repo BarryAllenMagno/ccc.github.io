@@ -14,13 +14,13 @@
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card border-0 shadow rounded-3 my-5">
-          <div class="card-body p-4 p-sm-5">
+          <div class="card-body p-4 p-sm-5" style="background: #ffe6ff">
             <h5 class="card-title text-center mb-5 fw-regular fs-5">ADD LEADER</h5>
             <form>
               <div class="row">
                   <div class="col-md-12">
                     <?php  if (isset($_SESSION['message'])) { ?>
-                  <div class="alert alert-success text-center" >
+                  <div class="alert alert-success text-center" id="success-alert" >
                     <?php echo $_SESSION['message']; ?>
                   </div>
                     <?php
@@ -57,6 +57,7 @@
               <div class="form-floating mb-3">
                 <input type="date" id="birthday" name="birthday" class="form-control" id="floatingInput">
                 <label for="floatingBirthday">Birthday</label>
+                <?php echo form_error('birthday','<div class="text-danger">','</div>'); ?>
               </div>
 
               <div class="form-floating mb-3">
@@ -80,11 +81,11 @@
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">ADD</button>
               </div>
 
-              <a href=<?= base_url().'admin/dashboard'?>>
+              
                 <div class="d-grid mb-2">
-                  <button class="btn btn-primary btn-login text-uppercase fw-bold" type="button" style="margin: 6px 0px 0px 0px">Cancel</button>
+                  <a href="<?php echo site_url('admin/dashboard') ?>" class="btn btn-secondary text-uppercase fw-bold" onclick="return confirm('Do you want to cancel adding leader?')" style="margin: 6px 0px 0px 0px">Cancel</a>
                 </div>
-              </a>
+              
             </form>
           </div>
         </div>
@@ -96,6 +97,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script>
+      $(document).ready(function() {
+  $("#success-alert").hide();
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      $("#success-alert").slideUp(500);
+    });
+  
+});
+    </script>
 <?php echo form_close();?>
 <?php $this->load->view("templates/footer"); ?>

@@ -38,14 +38,6 @@ class Users extends MY_Controller {
       }
     }
 
-    // public function coAdminAddStudent(){
-    //     if(!$this->session->userdata("user_id")){
-    //       redirect("welcome/login");
-    //       }
-    //       $this->load->model('queries');
-    //       $colleges = $this->queries->getColleges();
-    //       $this->load->view('coAdminAddStudent', ['colleges' => $colleges]);
-    //       }
 
 
 
